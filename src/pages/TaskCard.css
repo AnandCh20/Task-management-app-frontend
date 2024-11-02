@@ -1,0 +1,109 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Make sure the modal is above other content */
+}
+
+.modal-content {
+    background: white;
+    padding: 10px;
+    /* border-radius: 5px; */
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); */
+    position: relative; /* For positioning the close button */
+    width: 400px; /* Adjust width as needed */
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modes{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: 0.1px solid #E2E2E2;
+    padding: 3px 8px 3px 8px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: normal;
+    margin: 2px;
+}
+
+.title{
+    margin: 0px;
+}
+
+.priority{
+    display: flex;
+    gap: 0.5rem;
+    padding: 0px;
+}
+
+label{
+    margin: 0px;    
+    font-size: 12px;
+}
+
+.modes{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border: 0.1px solid #E2E2E2;
+    padding: 3px 8px 3px 8px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: normal;
+    margin: 2px;
+}
+
+
+
+
+
+
+/* .task-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.priority {
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.priority.high {
+    background-color: #ffccd5;
+    color: #ff0000;
+}
+
+.priority.low {
+    background-color: #d4f5d6;
+    color: #00b000;
+}
+
+.priority.moderate {
+    background-color: #ffe599;
+    color: #ff9900;
+} */
