@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { getTasks, deleteTask } from '../services/task.js';
 import { AppContext } from '../contexts/AppContext.jsx';
 import toast from "react-hot-toast";
-import '../component/deleteModal.css'
+import '../component/DeleteModal.css'
 
 const MyDeleteModal = () => {
     const { state, setState, deleteId, setDeleteId, DeleteModal, setDeleteModal } = useContext(AppContext);
