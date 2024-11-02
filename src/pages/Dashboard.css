@@ -40,7 +40,7 @@
 }
 
  /* TaskModal */
- .form-group {
+ /* .form-group {
     margin-bottom: 1rem;
 }
 
@@ -48,37 +48,37 @@
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-}
+} */
 
-.required {
+/* .required {
     color: red;
     margin-left: 0.25rem;
-}
+} */
 
-.input-field {
+/* .input-field {
     width: 80%;
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
-}
+} */
 
-.priority-buttons {
+/* .priority-buttons {
     gap: 0.5rem;
-}
-
+} */
+/* 
 .priority {
     border: 1px solid transparent;
     border-radius: 0.25rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 0.9rem;
-}
+} */
 
-.priority.high {
+/* .priority.high {
     color: #ff4d4f;
-}
+} */
 
-.priority.moderate {
+/* .priority.moderate {
     color: #40a9ff;
 }
 
@@ -143,7 +143,7 @@
 .save-btn {
     background-color: #1890ff;
     color: white;
-}
+} */
 
 
  

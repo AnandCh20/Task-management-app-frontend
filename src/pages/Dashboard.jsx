@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import Sidebar from '../component/SideBar.jsx';
 import toast from "react-hot-toast";
 import './Dashboard.css';
-import { TaskCard } from './TaskCard.jsx'; 
+import { TaskCard } from './TaskCard.jsx';
 import { useParams } from 'react-router-dom';
 import { createTask, updateTask, getTasks, deleteTask } from '../services/task.js';
 import addButton from '../assets/Add.png';
@@ -22,13 +22,13 @@ export const Dashboard = () => {
     // const [fetchTask, setFetchTask] = useState(false);
     const [showTaskBar, setShowTaskBar] = useState(false);
     const [showEditTaskBar, setShowEditTaskBar] = useState(false);
-    const [editState,setEditState]=useState([{
+    const [editState, setEditState] = useState([{
         title: "",
         category: "TODO",
         priority: "",
         assign: "",
-        checklist: [{ 
-            item: null, completed: null  
+        checklist: [{
+            item: null, completed: null
         }],
         dueDate: ""
     }]);
@@ -38,13 +38,13 @@ export const Dashboard = () => {
         category: "TODO",
         priority: "",
         assign: "",
-        checklist: [{ 
-            item: null, completed: null  
+        checklist: [{
+            item: null, completed: null
         }],
         dueDate: ""
     });
-    const [checklist, setChecklist] = useState([{ 
-        item: '', completed: false 
+    const [checklist, setChecklist] = useState([{
+        item: '', completed: false
     }]);
     const [newChecklistItem, setNewChecklistItem] = useState('');
     const [isChecklistVisible, setisChecklistVisible] = useState(false)
@@ -59,10 +59,10 @@ export const Dashboard = () => {
 
     /////////////////////////////// Current Date ///////////////////////////////////////
     useEffect(() => {
-        const options = { 
-            day: 'numeric', 
-            month: 'short', 
-            year: 'numeric' 
+        const options = {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
         };
         const date = new Date().toLocaleDateString('en-GB', options);
         const formattedDate = date.replace(/(\d+)/, '$1' + (date.includes('1') ? 'st' : date.includes('2') ? 'nd' : date.includes('3') ? 'rd' : 'th'));
@@ -73,7 +73,7 @@ export const Dashboard = () => {
         // Create an empty checklist item
         setChecklist(prev => [...prev, { item: '', completed: false }]);
     };
-    
+
     const handleChecklistItemChange = (index, value) => {
         setChecklist(prev =>
             prev.map((item, i) =>
@@ -81,14 +81,14 @@ export const Dashboard = () => {
             )
         );
     };
-    
+
     const toggleChecklist = () => {
         setisChecklistVisible(!isChecklistVisible);
     };
 
     const handleDeleteChecklistItem = (index) => {
         setChecklist(checklist.filter((_, i) => i !== index));
-        toast.success("Checklist item deleted successfully"); 
+        toast.success("Checklist item deleted successfully");
     };
 
     const toggleChecklistItem = (index) => {
@@ -102,20 +102,17 @@ export const Dashboard = () => {
     const toggleCalendar = () => {
         setShowCalendar(!showCalendar);
     };
+    console.log(showCalendar)
 
     const handleDateChange = (event) => {
-        const newDate = event.target.value;
-        setSelectedDate(newDate);
-        setTaskData(prev => ({ ...prev, dueDate: newDate }));
+        setSelectedDate(event.target.value);
         setShowCalendar(false);
     };
 
     const formatDate = (date) => {
-        if (!date) return "Select Due Date";
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return new Date(date).toLocaleDateString(undefined, options);
+        return date ? new Date(date).toLocaleDateString() : 'Select a date';
     };
-
+    ////////////////////////////////////////////////////////////////////////////
     const handleOnChange = (e) => {
         const { name, value } = e.target;
         setTaskData((prevData) => ({
@@ -136,14 +133,14 @@ export const Dashboard = () => {
         e.preventDefault();
         const data = { ...taskData, checklist: checklist };
         // const data = { ...taskData};
-        console.log("data",data)
+        console.log("data", data)
 
         if (!taskData.title || !taskData.priority || checklist.length === 0 || !taskData.dueDate) {
             toast.error("Please fill in all required fields");
             return;
         }
         try {
-            const response = await createTask({data});
+            const response = await createTask({ data });
             if (response.status === 200) {
                 toast.success("Task created successfully");
                 setShowTaskBar(false);
@@ -153,11 +150,11 @@ export const Dashboard = () => {
                     priority: "",
                     assign: "",
                     checklist: [{
-                        item:null,
-                        completed:null
+                        item: null,
+                        completed: null
                     }],
                     dueDate: ""
-                });    
+                });
                 fetchTasks();
             } else {
                 toast.error('Task operation failed');
@@ -166,7 +163,7 @@ export const Dashboard = () => {
             toast.error(error.message);
         }
     };
-    
+
     const handleCloseModal = () => {
         setShowTaskBar(false);
         setShowEditTaskBar(false)
@@ -186,7 +183,7 @@ export const Dashboard = () => {
     };
 
     useEffect(() => {
-        fetchTasks(); 
+        fetchTasks();
     }, [id]);
 
     // Filter tasks by category
@@ -195,7 +192,7 @@ export const Dashboard = () => {
     const inProgressTasks = state.filter(task => task.category === "PROGRESS");
     const doneTasks = state.filter(task => task.category === "DONE");
 
-     //////////////////////////////// Inner Card  ////////////////////////////////
+    //////////////////////////////// Inner Card  ////////////////////////////////
     const fetchUser = async () => {
         const response = await verifyToken();
         if (response.status === 200) {
@@ -215,7 +212,7 @@ export const Dashboard = () => {
         setDeleteModal(true)
     };
     console.log(openDeleteModal)
-    
+
     //////////////////////////////// Edit Task /////////////////////////////////////////////
     const handleEditChange = (e) => {
         const { name, value } = e.target;
@@ -225,7 +222,7 @@ export const Dashboard = () => {
         }));
     };
 
-     //////////////////////////////// Priority  ////////////////////////////////
+    //////////////////////////////// Priority  ////////////////////////////////
     const handleEditPriorityChange = (value) => {
         setEditState((prevData) => ({
             ...prevData,
@@ -233,7 +230,7 @@ export const Dashboard = () => {
         }));
     };
 
-     //////////////////////////////// Date  ////////////////////////////////
+    //////////////////////////////// Date  ////////////////////////////////
     const handleEditDate = (event) => {
         const newDate = event.target.value;
         setSelectedDate(newDate);
@@ -243,14 +240,14 @@ export const Dashboard = () => {
     ///////////////////////////// Checklist //////////////////////////////
     const toggleEditChecklistItem = (e, index) => {
         const updatedChecklist = [...editState.checklist];
-    
+
         if (e && e.target) {
             updatedChecklist[index].item = e.target.value;
         } else {
             //toggle the completed state
             updatedChecklist[index].completed = !updatedChecklist[index].completed;
         }
-    
+
         setEditState((prevState) => ({
             ...prevState,
             checklist: updatedChecklist,
@@ -282,7 +279,7 @@ export const Dashboard = () => {
         //     if (response.status === 200) {
         //         setEditState(response.data);
         //         console.log("editState",editState)
-                
+
         //     } else {
         //         console.error("Error fetching tasks:", response.status);
         //     }
@@ -307,12 +304,12 @@ export const Dashboard = () => {
         fetchTask();
     }, [showEditTaskBar]);
 
-    const handleUpdateEditedTask = async (e) =>{
+    const handleUpdateEditedTask = async (e) => {
         e.preventDefault();
-        const data = { ...editState};
-        console.log("data",data)    
+        const data = { ...editState };
+        console.log("data", data)
         try {
-            const response = await updateTask(editTaskId,data);
+            const response = await updateTask(editTaskId, data);
             if (response.status === 200) {
                 toast.success('Task Edited Successfully');
                 fetchTasks();
@@ -365,112 +362,112 @@ export const Dashboard = () => {
                     <div className="column">
                         <h2>Backlog</h2>
                         <div>
-                        {backlogTasks.map(task => {
-                            const priority = task.priority.toUpperCase();
-                            let month = 'N/A';
-                            let day = 'N/A';
-                            if (task.dueDate) {
-                                const dueDate = new Date(task.dueDate);
-                                month = dueDate.toLocaleString(undefined, { month: 'long' });
-                                day = dueDate.toLocaleString(undefined, { day: 'numeric' });
-                            }
+                            {backlogTasks.map(task => {
+                                const priority = task.priority.toUpperCase();
+                                let month = 'N/A';
+                                let day = 'N/A';
+                                if (task.dueDate) {
+                                    const dueDate = new Date(task.dueDate);
+                                    month = dueDate.toLocaleString(undefined, { month: 'long' });
+                                    day = dueDate.toLocaleString(undefined, { day: 'numeric' });
+                                }
 
-                            const isEditMode = editMode === task._id; // Toggle for edit mode
+                                const isEditMode = editMode === task._id; // Toggle for edit mode
 
-                            return (
-                                <div key={task._id} style={{border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        gap: "4px"
-                                    }}>
-                                        <div>
-                                            <span>{`${priority} PRIORITY`}</span>
-                                            <span> | {task.assign || 'N/A'}</span>
+                                return (
+                                    <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            gap: "4px"
+                                        }}>
+                                            <div>
+                                                <span>{`${priority} PRIORITY`}</span>
+                                                <span> | {task.assign || 'N/A'}</span>
+                                            </div>
+                                            <div>
+                                                <button onClick={() => handleModeToggle(task._id)}>...</button>
+                                                {isEditMode && (
+                                                    <div style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "4px",
+                                                        padding: "4px"
+                                                    }}>
+                                                        {user && user.id === task.creator && (
+                                                            <button onClick={() => handleDelete(task._id)}>Delete</button>
+                                                        )}
+                                                        <button onClick={() => handleEdit(task._id)}>Edit</button>
+                                                        <button>Share</button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button onClick={() => handleModeToggle(task._id)}>...</button>
-                                            {isEditMode && (
-                                                <div style={{
+
+                                        <h3>{task.title}</h3>
+
+                                        {/* Checklist Section */}
+                                        <div className="checklist">
+                                            <div className="checklist-header">
+                                                <p>Checklist</p>
+                                                <p>
+                                                    Checklist (
+                                                    {task.checklist.filter((item) => item.completed).length}/
+                                                    {task.checklist.length})
+                                                </p>
+                                                <img
+                                                    src={isChecklistVisible ? upArrow : downArrow}
+                                                    alt="toggle checklist"
+                                                    onClick={toggleChecklist}
+                                                    className="arrow-icon"
+                                                />
+                                            </div>
+
+                                            {isChecklistVisible && (
+                                                <div className="checklist-items" style={{
                                                     display: "flex",
                                                     flexDirection: "column",
-                                                    gap: "4px",
-                                                    padding: "4px"
+                                                    gap: "1rem",
+                                                    justifyContent: "space-around"
                                                 }}>
-                                                    {user && user.id === task.creator && (
-                                                        <button onClick={() => handleDelete(task._id)}>Delete</button>
-                                                    )}
-                                                    <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                    <button>Share</button>
+                                                    {task.checklist.map((item, index) => (
+                                                        <div key={index} className="checklist-item" style={{
+                                                            display: "flex",
+                                                            gap: "1rem"
+                                                        }}>
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={item.completed}
+                                                                className="checkbox"
+                                                                readOnly
+                                                            />
+                                                            <span>{item.item}</span>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
-                                    
-                                <h3>{task.title}</h3>
 
-                                {/* Checklist Section */}
-                                <div className="checklist">
-                                <div className="checklist-header">
-                                    <p>Checklist</p>
-                                    <p>
-                                    Checklist (
-                                    {task.checklist.filter((item) => item.completed).length}/
-                                    {task.checklist.length})
-                                    </p>
-                                    <img
-                                    src={isChecklistVisible ? upArrow : downArrow}
-                                    alt="toggle checklist"
-                                    onClick={toggleChecklist}
-                                    className="arrow-icon"
-                                    />
-                                </div>
-
-                                {isChecklistVisible && (
-                                <div className="checklist-items" style={{
-                                    display:"flex",
-                                    flexDirection:"column",
-                                    gap:"1rem",
-                                    justifyContent:"space-around"
-                                }}>
-                                    {task.checklist.map((item, index) => (
-                                        <div key={index} className="checklist-item" style={{
-                                            display:"flex",
-                                            gap:"1rem"        
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center"
                                         }}>
-                                            <input
-                                                type="checkbox"
-                                                checked={item.completed}
-                                                className="checkbox"
-                                                readOnly
-                                            />
-                                            <span>{item.item}</span>
+                                            <button>{`${month.slice(0, 3)} ${day}`}</button>
+
+                                            <div style={{
+                                                display: "flex",
+                                                gap: "4px"
+                                            }}>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'TODO')}>TODO</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'PROGRESS')}>PROGRESS</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'DONE')}>DONE</button>
+                                            </div>
                                         </div>
-                                    ))}
                                     </div>
-                                )}
-                                </div>
-                                
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center"
-                                }}>
-                                    <button>{`${month.slice(0, 3)} ${day}`}</button>
-                                    
-                                    <div style={{
-                                        display: "flex",
-                                        gap: "4px"
-                                    }}>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'TODO')}>TODO</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'PROGRESS')}>PROGRESS</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'DONE')}>DONE</button>
-                                    </div>
-                                </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
 
                         </div>
                     </div>
@@ -483,308 +480,308 @@ export const Dashboard = () => {
                             </div>
                         </div>
                         <div>
-                        {todoTasks.map(task => {
-                            const priority = task.priority.toUpperCase();
-                            let month = 'N/A';
-                            let day = 'N/A';
-                            if (task.dueDate) {
-                                const dueDate = new Date(task.dueDate);
-                                month = dueDate.toLocaleString(undefined, { month: 'long' });
-                                day = dueDate.toLocaleString(undefined, { day: 'numeric' });
-                            }
+                            {todoTasks.map(task => {
+                                const priority = task.priority.toUpperCase();
+                                let month = 'N/A';
+                                let day = 'N/A';
+                                if (task.dueDate) {
+                                    const dueDate = new Date(task.dueDate);
+                                    month = dueDate.toLocaleString(undefined, { month: 'long' });
+                                    day = dueDate.toLocaleString(undefined, { day: 'numeric' });
+                                }
 
-                            const isEditMode = editMode === task._id; // Toggle for edit mode
+                                const isEditMode = editMode === task._id; // Toggle for edit mode
 
-                            return (
-                                <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        gap: "4px"
-                                    }}>
-                                        <div>
-                                            <span>{`${priority} PRIORITY`}</span>
-                                            <span> | {task.assign || 'N/A'}</span>
+                                return (
+                                    <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            gap: "4px"
+                                        }}>
+                                            <div>
+                                                <span>{`${priority} PRIORITY`}</span>
+                                                <span> | {task.assign || 'N/A'}</span>
+                                            </div>
+                                            <div>
+                                                <button onClick={() => handleModeToggle(task._id)}>...</button>
+                                                {isEditMode && (
+                                                    <div style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "4px",
+                                                        padding: "4px"
+                                                    }}>
+                                                        {user && user.id === task.creator && (
+                                                            <button onClick={() => handleDelete(task._id)}>Delete</button>
+                                                        )}
+                                                        <button onClick={() => handleEdit(task._id)}>Edit</button>
+                                                        <button>Share</button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button onClick={() => handleModeToggle(task._id)}>...</button>
-                                            {isEditMode && (
-                                                <div style={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    gap: "4px",
-                                                    padding: "4px"
-                                                }}>
-                                                    {user && user.id === task.creator && (
-                                                        <button onClick={() => handleDelete(task._id)}>Delete</button>
-                                                    )}
-                                                    <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                    <button>Share</button>
+
+                                        <h3>{task.title}</h3>
+                                        {/* Checklist Section */}
+                                        <div className="checklist">
+                                            <div className="checklist-header">
+                                                <p>Checklist</p>
+                                                <p>
+                                                    Checklist (
+                                                    {task.checklist.filter((item) => item.completed).length}/
+                                                    {task.checklist.length})
+                                                </p>
+                                                <img
+                                                    src={isChecklistVisible ? upArrow : downArrow}
+                                                    alt="toggle checklist"
+                                                    onClick={toggleChecklist}
+                                                    className="arrow-icon"
+                                                />
+                                            </div>
+
+                                            {isChecklistVisible && (
+                                                <div className="checklist-items">
+                                                    {task.checklist.map((item, index) => (
+                                                        <div key={index} className="checklist-item">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={item.completed}
+                                                                className="checkbox"
+                                                                readOnly
+                                                            />
+                                                            <span>{item.item}</span>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
-                                    
-                                <h3>{task.title}</h3>
-                                  {/* Checklist Section */}
-                                  <div className="checklist">
-                                    <div className="checklist-header">
-                                        <p>Checklist</p>
-                                        <p>
-                                        Checklist (
-                                        {task.checklist.filter((item) => item.completed).length}/
-                                        {task.checklist.length})
-                                        </p>
-                                        <img
-                                        src={isChecklistVisible ? upArrow : downArrow}
-                                        alt="toggle checklist"
-                                        onClick={toggleChecklist}
-                                        className="arrow-icon"
-                                        />
-                                    </div>
 
-                                {isChecklistVisible && (
-                                    <div className="checklist-items">
-                                        {task.checklist.map((item, index) => (
-                                            <div key={index} className="checklist-item">
-                                            <input
-                                                type="checkbox"
-                                                checked={item.completed}
-                                                className="checkbox"
-                                                readOnly
-                                            />
-                                            <span>{item.item}</span>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center"
+                                        }}>
+                                            <button>{`${month.slice(0, 3)} ${day}`}</button>
+
+                                            <div style={{
+                                                display: "flex",
+                                                gap: "4px"
+                                            }}>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'BACKLOG')}>BACKLOG</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'PROGRESS')}>PROGRESS</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'DONE')}>DONE</button>
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-                                )}
-                                </div>
-                                
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center"
-                                }}>
-                                    <button>{`${month.slice(0, 3)} ${day}`}</button>
-                                    
-                                    <div style={{
-                                        display: "flex",
-                                        gap: "4px"
-                                    }}>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'BACKLOG')}>BACKLOG</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'PROGRESS')}>PROGRESS</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'DONE')}>DONE</button>
-                                    </div>
-                                </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
                         </div>
                     </div>
                     <div className="column">
                         <h2>In progress</h2>
-                         <div>
-                         {inProgressTasks.map(task => {
-                            const priority = task.priority.toUpperCase();
-                            let month = 'N/A';
-                            let day = 'N/A';
-                            if (task.dueDate) {
-                                const dueDate = new Date(task.dueDate);
-                                month = dueDate.toLocaleString(undefined, { month: 'long' });
-                                day = dueDate.toLocaleString(undefined, { day: 'numeric' });
-                            }
+                        <div>
+                            {inProgressTasks.map(task => {
+                                const priority = task.priority.toUpperCase();
+                                let month = 'N/A';
+                                let day = 'N/A';
+                                if (task.dueDate) {
+                                    const dueDate = new Date(task.dueDate);
+                                    month = dueDate.toLocaleString(undefined, { month: 'long' });
+                                    day = dueDate.toLocaleString(undefined, { day: 'numeric' });
+                                }
 
-                            const isEditMode = editMode === task._id; // Toggle for edit mode
+                                const isEditMode = editMode === task._id; // Toggle for edit mode
 
-                            return (
-                                <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        gap: "4px"
-                                    }}>
-                                        <div>
-                                            <span>{`${priority} PRIORITY`}</span>
-                                            <span> | {task.assign || 'N/A'}</span>
+                                return (
+                                    <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            gap: "4px"
+                                        }}>
+                                            <div>
+                                                <span>{`${priority} PRIORITY`}</span>
+                                                <span> | {task.assign || 'N/A'}</span>
+                                            </div>
+                                            <div>
+                                                <button onClick={() => handleModeToggle(task._id)}>...</button>
+                                                {isEditMode && (
+                                                    <div style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "4px",
+                                                        padding: "4px"
+                                                    }}>
+                                                        {user && user.id === task.creator && (
+                                                            <button onClick={() => handleDelete(task._id)}>Delete</button>
+                                                        )}
+                                                        <button onClick={() => handleEdit(task._id)}>Edit</button>
+                                                        <button>Share</button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button onClick={() => handleModeToggle(task._id)}>...</button>
-                                            {isEditMode && (
-                                                <div style={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    gap: "4px",
-                                                    padding: "4px"
-                                                }}>
-                                                    {user && user.id === task.creator && (
-                                                        <button onClick={() => handleDelete(task._id)}>Delete</button>
-                                                    )}
-                                                    <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                    <button>Share</button>
+
+                                        <h3>{task.title}</h3>
+                                        {/* Checklist Section */}
+                                        <div className="checklist">
+                                            <div className="checklist-header">
+                                                <p>Checklist</p>
+                                                <p>
+                                                    Checklist (
+                                                    {task.checklist.filter((item) => item.completed).length}/
+                                                    {task.checklist.length})
+                                                </p>
+                                                <img
+                                                    src={isChecklistVisible ? upArrow : downArrow}
+                                                    alt="toggle checklist"
+                                                    onClick={toggleChecklist}
+                                                    className="arrow-icon"
+                                                />
+                                            </div>
+
+                                            {isChecklistVisible && (
+                                                <div className="checklist-items">
+                                                    {task.checklist.map((item, index) => (
+                                                        <div key={index} className="checklist-item">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={item.completed}
+                                                                className="checkbox"
+                                                                readOnly
+                                                            />
+                                                            <span>{item.text}</span>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
-                                    
-                                <h3>{task.title}</h3>
-                                  {/* Checklist Section */}
-                                  <div className="checklist">
-                                    <div className="checklist-header">
-                                        <p>Checklist</p>
-                                        <p>
-                                        Checklist (
-                                        {task.checklist.filter((item) => item.completed).length}/
-                                        {task.checklist.length})
-                                        </p>
-                                        <img
-                                        src={isChecklistVisible ? upArrow : downArrow}
-                                        alt="toggle checklist"
-                                        onClick={toggleChecklist}
-                                        className="arrow-icon"
-                                        />
-                                    </div>
 
-                                {isChecklistVisible && (
-                                    <div className="checklist-items">
-                                    {task.checklist.map((item, index) => (
-                                        <div key={index} className="checklist-item">
-                                        <input
-                                            type="checkbox"
-                                            checked={item.completed}
-                                            className="checkbox"
-                                            readOnly
-                                        />
-                                        <span>{item.text}</span>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center"
+                                        }}>
+                                            <button>{`${month.slice(0, 3)} ${day}`}</button>
+
+                                            <div style={{
+                                                display: "flex",
+                                                gap: "4px"
+                                            }}>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'BACKLOG')}>BACKLOG</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'TODO')}>TODO</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'DONE')}>DONE</button>
+                                            </div>
                                         </div>
-                                    ))}
                                     </div>
-                                )}
-                                </div>
-                                
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center"
-                                }}>
-                                    <button>{`${month.slice(0, 3)} ${day}`}</button>
-                                    
-                                    <div style={{
-                                        display: "flex",
-                                        gap: "4px"
-                                    }}>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'BACKLOG')}>BACKLOG</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'TODO')}>TODO</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'DONE')}>DONE</button>
-                                    </div>
-                                </div>
-                                </div>
-                            );
-                        })}
-                         </div>
-                        
+                                );
+                            })}
+                        </div>
+
                     </div>
                     <div className="column">
                         <h2>Done</h2>
                         <div>
-                        {doneTasks.map(task => {
-                            const priority = task.priority.toUpperCase();
-                            let month = 'N/A';
-                            let day = 'N/A';
-                            if (task.dueDate) {
-                                const dueDate = new Date(task.dueDate);
-                                month = dueDate.toLocaleString(undefined, { month: 'long' });
-                                day = dueDate.toLocaleString(undefined, { day: 'numeric' });
-                            }
+                            {doneTasks.map(task => {
+                                const priority = task.priority.toUpperCase();
+                                let month = 'N/A';
+                                let day = 'N/A';
+                                if (task.dueDate) {
+                                    const dueDate = new Date(task.dueDate);
+                                    month = dueDate.toLocaleString(undefined, { month: 'long' });
+                                    day = dueDate.toLocaleString(undefined, { day: 'numeric' });
+                                }
 
-                            const isEditMode = editMode === task._id; // Toggle for edit mode
+                                const isEditMode = editMode === task._id; // Toggle for edit mode
 
-                            return (
-                                <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
-                                    <div style={{
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        gap: "4px"
-                                    }}>
-                                        <div>
-                                            <span>{`${priority} PRIORITY`}</span>
-                                            <span> | {task.assign || 'N/A'}</span>
+                                return (
+                                    <div key={task._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "5px" }}>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            gap: "4px"
+                                        }}>
+                                            <div>
+                                                <span>{`${priority} PRIORITY`}</span>
+                                                <span> | {task.assign || 'N/A'}</span>
+                                            </div>
+                                            <div>
+                                                <button onClick={() => handleModeToggle(task._id)}>...</button>
+                                                {isEditMode && (
+                                                    <div style={{
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        gap: "4px",
+                                                        padding: "4px"
+                                                    }}>
+                                                        {user && user.id === task.creator && (
+                                                            <button onClick={() => handleDelete(task._id)}>Delete</button>
+                                                        )}
+                                                        <button onClick={() => handleEdit(task._id)}>Edit</button>
+                                                        <button>Share</button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button onClick={() => handleModeToggle(task._id)}>...</button>
-                                            {isEditMode && (
-                                                <div style={{
-                                                    display: "flex",
-                                                    flexDirection: "column",
-                                                    gap: "4px",
-                                                    padding: "4px"
-                                                }}>
-                                                    {user && user.id === task.creator && (
-                                                        <button onClick={() => handleDelete(task._id)}>Delete</button>
-                                                    )}
-                                                    <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                    <button>Share</button>
+
+                                        <h3>{task.title}</h3>
+                                        {/* Checklist Section */}
+                                        <div className="checklist">
+                                            <div className="checklist-header">
+                                                <p>Checklist</p>
+                                                <p>
+                                                    Checklist (
+                                                    {task.checklist.filter((item) => item.completed).length}/
+                                                    {task.checklist.length})
+                                                </p>
+                                                <img
+                                                    src={isChecklistVisible ? upArrow : downArrow}
+                                                    alt="toggle checklist"
+                                                    onClick={toggleChecklist}
+                                                    className="arrow-icon"
+                                                />
+                                            </div>
+
+                                            {isChecklistVisible && (
+                                                <div className="checklist-items">
+                                                    {task.checklist.map((item, index) => (
+                                                        <div key={index} className="checklist-item">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={item.completed}
+                                                                className="checkbox"
+                                                                readOnly
+                                                            />
+                                                            <span>{item.text}</span>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             )}
                                         </div>
-                                    </div>
-                                    
-                                <h3>{task.title}</h3>
-                                  {/* Checklist Section */}
-                                  <div className="checklist">
-                                    <div className="checklist-header">
-                                        <p>Checklist</p>
-                                        <p>
-                                            Checklist (
-                                            {task.checklist.filter((item) => item.completed).length}/
-                                            {task.checklist.length})
-                                        </p>
-                                        <img
-                                        src={isChecklistVisible ? upArrow : downArrow}
-                                        alt="toggle checklist"
-                                        onClick={toggleChecklist}
-                                        className="arrow-icon"
-                                        />
-                                    </div>
 
-                                {isChecklistVisible && (
-                                    <div className="checklist-items">
-                                    {task.checklist.map((item, index) => (
-                                        <div key={index} className="checklist-item">
-                                        <input
-                                            type="checkbox"
-                                            checked={item.completed}
-                                            className="checkbox"
-                                            readOnly
-                                        />
-                                        <span>{item.text}</span>
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "center"
+                                        }}>
+                                            <button>{`${month.slice(0, 3)} ${day}`}</button>
+
+                                            <div style={{
+                                                display: "flex",
+                                                gap: "4px"
+                                            }}>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'BACKLOG')}>BACKLOG</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'TODO')}>TODO</button>
+                                                <button onClick={() => handleUpdateCategory(task._id, 'PROGRESS')}>PROGRESS</button>
+                                            </div>
                                         </div>
-                                    ))}
                                     </div>
-                                )}
-                                </div>
-                                
-                                <div style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center"
-                                }}>
-                                    <button>{`${month.slice(0, 3)} ${day}`}</button>
-                                    
-                                    <div style={{
-                                        display: "flex",
-                                        gap: "4px"
-                                    }}>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'BACKLOG')}>BACKLOG</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'TODO')}>TODO</button>
-                                        <button onClick={() => handleUpdateCategory(task._id, 'PROGRESS')}>PROGRESS</button>
-                                    </div>
-                                </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -795,49 +792,46 @@ export const Dashboard = () => {
                 <form onSubmit={handleSaveCard}>
                     <div className="form-group">
                         <p className="title">Title <span className="required">*</span></p>
-                        <input 
-                            type="text" 
-                            placeholder='Enter Task Title' 
-                            name="title" 
-                            value={taskData.title} 
-                            onChange={handleOnChange}  
+                        <input
+                            type="text"
+                            placeholder='Enter Task Title'
+                            name="title"
+                            value={taskData.title}
+                            onChange={handleOnChange}
                             required
-                             className="input-field"
+                            className="input-field"
                         />
                     </div>
 
                     <div className='priority'>
-                    <label>Select Priority <span className="required">*</span></label>
-                    <div className="priority-buttons">
-                        <button className="modes" type="button" onClick={() => handlePriorityChange("high")}>
-                            <img src={redEllipse} alt="high priority" /> HIGH PRIORITY
-                        </button>
-                        <button className="modes" type="button" onClick={() => handlePriorityChange("moderate")}>
-                            <img src={blueEllipse} alt="moderate priority" /> MODERATE PRIORITY
-                        </button>
-                        <button className="modes" type="button" onClick={() => handlePriorityChange("low")}>
-                            <img src={greenEllipse} alt="low priority" /> LOW PRIORITY
-                        </button>
+                        <label>Select Priority <span className="required">*</span></label>
+                        <div className="priority-buttons">
+                            <button className="modes" type="button" onClick={() => handlePriorityChange("high")}>
+                                <img src={redEllipse} alt="high priority" /> HIGH PRIORITY
+                            </button>
+                            <button className="modes" type="button" onClick={() => handlePriorityChange("moderate")}>
+                                <img src={blueEllipse} alt="moderate priority" /> MODERATE PRIORITY
+                            </button>
+                            <button className="modes" type="button" onClick={() => handlePriorityChange("low")}>
+                                <img src={greenEllipse} alt="low priority" /> LOW PRIORITY
+                            </button>
+                        </div>
                     </div>
-                    </div>
-                    
-                    <div>
-                        <p>Assign to 
+
+                    <div class="assign-container">
+                        <p class="assign-label">
+                            Assign to
                             <span>
-                                <input 
-                                    type="text" 
-                                    placeholder='Add an assignee' 
-                                    name="assign" 
-                                    value={taskData.assign} 
-                                    onChange={handleOnChange}  
-                                />
+                                <select name="assign" id="assign" class="assign-select">
+                                    <option value="Akashgupta@gmail.com">Akashgupta@gmail.com</option>
+                                </select>
                             </span>
                         </p>
                     </div>
 
-                    
+
                     <div>
-                        <label>
+                        <label className='checklist'>
                             Checklist ({checklist.length}) <span>*</span>
                         </label>
                         <div>
@@ -853,7 +847,6 @@ export const Dashboard = () => {
                                         type="text"
                                         value={checklistItem.item}
                                         onChange={(e) => handleChecklistItemChange(index, e.target.value)}
-                                        placeholder="Item description"
                                         aria-label={`Checklist item ${index}`}
                                     />
                                     <img
@@ -865,14 +858,14 @@ export const Dashboard = () => {
                             ))}
                         </div>
 
-                        <button type="button" onClick={handleAddChecklistItem}>
+                        <button className="addchecklist" type="button" onClick={handleAddChecklistItem}>
                             + Add New
                         </button>
                     </div>
 
 
                     <div className="modal-footer">
-                        <button type="button" onClick={toggleCalendar}>
+                        <button className="calendar" type="button" onClick={toggleCalendar}>
                             {formatDate(selectedDate)}
                         </button>
                         {showCalendar && (
@@ -885,32 +878,34 @@ export const Dashboard = () => {
                                 />
                             </div>
                         )}
-                        <button type="button" onClick={handleCloseModal}>
-                            Cancel
-                        </button>
-                        <button type="submit">
-                            Save
-                        </button>
+                        <div>
+                            <button className="cancel" type="button" onClick={handleCloseModal}>
+                                Cancel
+                            </button>
+                            <button type="submit" className="save">
+                                Save
+                            </button>
+                        </div>
                     </div>
-                </form>    
-            </TaskCard> 
+                </form>
+            </TaskCard>
 
             {/* Edit a Card */}
             <TaskCard isOpen={showEditTaskBar} onClose={handleCloseModal}>
                 <form onSubmit={handleUpdateEditedTask}>
                     <div>
-                        <p>Title <span style={{ color:"red"}}>*</span></p>
-                        <input 
-                            type="text" 
-                            placeholder={editState.title} 
-                            name="title" 
-                            value={editState.title} 
-                            onChange={handleEditChange}  
+                        <p>Title <span style={{ color: "red" }}>*</span></p>
+                        <input
+                            type="text"
+                            placeholder={editState.title}
+                            name="title"
+                            value={editState.title}
+                            onChange={handleEditChange}
                             required
                         />
                     </div>
-                    
-                    <p>Select Priority <span style={{ color:"red"}}>*</span></p>
+
+                    <p>Select Priority <span style={{ color: "red" }}>*</span></p>
 
                     <button className="modes" type="button" onClick={() => handleEditPriorityChange("high")}>
                         <img src={redEllipse} alt="high priority" /> HIGH PRIORITY
@@ -925,14 +920,14 @@ export const Dashboard = () => {
                     </button>
 
                     <div>
-                        <p>Assign to 
+                        <p>Assign to
                             <span>
-                                <input 
-                                    type="text" 
-                                    placeholder={editState.assign} 
-                                    name="assign" 
+                                <input
+                                    type="text"
+                                    placeholder={editState.assign}
+                                    name="assign"
                                     // value={editState.assign} 
-                                    onChange={handleEditChange}  
+                                    onChange={handleEditChange}
                                 />
                             </span>
                         </p>
@@ -940,7 +935,7 @@ export const Dashboard = () => {
 
                     {/*  */}
                     <div>
-                    {editState.checklist?.map((checklistItem, index) => (
+                        {editState.checklist?.map((checklistItem, index) => (
                             <div key={index} className="checklist-item">
                                 <input
                                     type="checkbox"
@@ -960,7 +955,7 @@ export const Dashboard = () => {
                             </div>
                         ))}
                         <div>
-                        <input
+                            <input
                                 type="text"
                                 onChange={(e) => setNewChecklistItem(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleAddEditChecklistItem()}
@@ -992,8 +987,8 @@ export const Dashboard = () => {
                             Save
                         </button>
                     </div>
-                </form>    
-            </TaskCard> 
+                </form>
+            </TaskCard>
         </div>
     );
 };

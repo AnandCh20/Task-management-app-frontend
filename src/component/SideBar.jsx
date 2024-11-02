@@ -35,9 +35,10 @@ const Sidebar = () => {
             </ul>
             <div className="logout">
                 <img src={logout} alt="Logout" />
-                <button className="logout-btn">Log out</button>
+                <button className="logout-btn"  onClick={()=>navigate('/login')}>Log out</button>
             </div>
-        </div>
+      </div>
+
     );
 };
 

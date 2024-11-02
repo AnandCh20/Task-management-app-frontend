@@ -1,23 +1,358 @@
+/* Main Card Styling */
 .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.modal-content {
+  background: white;
+  padding: 10px;
+  position: relative;
+  width: 400px;
+}
+
+.TaskCard {
+  width: 380px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Header Title */
+.title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.required {
+  color: #e74c3c;
+  padding: 0px;
+  margin: 0px;
+}
+
+/* Input Field */
+.input-field {
+  width: 80%;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* Priority Section */
+.priority {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+}
+
+.priority label {
+  color: #333;
+  font-size: 0.7rem;
+  font-weight:bold;
+}
+
+.priority-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  gap: 10px;
+  padding: 0px;
+  margin:0px;
+  background-color: #fafafa;
+}
+
+.modes {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 0.9em;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.modes img {
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+/* Priority Colors */
+.modes[alt="high priority"] {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.modes[alt="moderate priority"] {
+  background-color: #3498db;
+  color: white;
+}
+
+.modes[alt="low priority"] {
+  background-color: #2ecc71;
+  color: white;
+}
+
+/* Assignee Field */
+.assign {
+  margin-top: 15px;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.assign input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9em;
+  outline: none;
+}
+
+/* Checklist Section */
+.checklist-title {
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 4px;
+  font-size: 0.8em;
+  color: #333;
+  background-color: #fafafa;
+  width: 80%;
+}
+
+.checklist-item input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.checklist-item input[type="text"] {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.9em;
+}
+
+.checklist-item img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+
+button{
+  background: none;
+  font-size: 0.9em;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Add New Checklist Button */
+.addchecklist{
+  color:#767575;
+  background: none;
+  border: none;
+  font-size: 0.8em;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 0;
+}
+
+/* Modal Footer */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.calendar {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cancel {
+  padding: 5px 20px;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.save  {
+  padding: 7px 25px;
+  background-color: #17A2B8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* Calendar Popup */
+.calendar-popup {
+  position: absolute;
+  margin-top: 10px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.date-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9em;
+  outline: none;
+}
+
+/* Due Date */
+.due-date {
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.8em;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+/* Status Labels */
+.status-labels {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.status-label {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.8em;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.status-label.progress {
+  background-color: #3498db;
+  color: white;
+}
+
+.status-label.todo {
+  background-color: #e67e22;
+  color: white;
+}
+
+.status-label.done {
+  background-color: #2ecc71;
+  color: white;
+}
+
+/* Assign to */
+/* Container for the entire component */
+.assign-container {
+  font-family: Arial, sans-serif;
+  color: #8A80A5; /* Soft purple color */
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+/* Style for the label "Assign to" */
+.assign-label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.7rem;
+}
+
+/* Style for the select element to look like an input field */
+.assign-select {
+  width: 140%;
+  padding: 6px 12px;
+  border: 1px solid #E0E0E0; /* Light gray border */
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: transparent;
+  color: #333; /* Dark text color */
+  margin-left: 8px;
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  cursor: pointer;
+}
+
+/* Remove outline when focused */
+.assign-select:focus {
+  outline: none;
+}
+
+.checklist{
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+
+
+/* .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.5); 
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Make sure the modal is above other content */
+    z-index: 1000; 
 }
 
 .modal-content {
     background: white;
     padding: 10px;
-    /* border-radius: 5px; */
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); */
-    position: relative; /* For positioning the close button */
-    width: 400px; /* Adjust width as needed */
+    position: relative;
+    width: 400px;
 }
 
 .close-button {
@@ -106,4 +441,4 @@ label{
 .priority.moderate {
     background-color: #ffe599;
     color: #ff9900;
-} */
+} */ 
