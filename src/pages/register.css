@@ -99,7 +99,7 @@
 
 .input-field {
   width: 80%;
-  padding: 10px 40px;
+  /* padding: 10px 40px; */
   border: 1px solid #ccc;
   border-radius: 11px;
   outline: none;
