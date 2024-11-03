@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { updatePassword } from "../services/auth";
 import "./styles/Settings.css";
 import nameIcon from "../assets/name.png";
-import emailIcon from "../assets/icon.png";
+import email from "../assets/icon.png";
 import eyeIcon from "../assets/eye-icon.png";
 import lockIcon from "../assets/lock.png";
 import eyeOffIcon from "../assets/eye-off-icon.png";
@@ -73,7 +73,7 @@ export const Settings = () => {
 
           <div className="settings-form-group">
             <div className="settings-input-with-icon">
-              <img src={emailIcon} alt="Email Icon" className="settings-input-icon1" />
+              <img src={email} alt="Email Icon" className="settings-input-icon1" />
               <input
                 type="email"
                 name="email"

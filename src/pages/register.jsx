@@ -11,7 +11,7 @@ import password from "../assets/lock.png";
 import eyeIcon from "../assets/eye-icon.png";
 import eyeOffIcon from "../assets/eye-off-icon.png";
 import name from "../assets/name.png";
-import '../pages/register.css';
+import './styles/register.css';
 
 function Register() {
     const [userData, setUserData] = useState({
@@ -97,7 +97,7 @@ function Register() {
                                 id="name"
                                 required
                                 placeholder="Name"
-                                className="input-field name-input"
+                                className="input-fields name-input"
                             />
                             <img src={name} alt="Name Icon" className="input-icon1" />
                         </div>
@@ -112,7 +112,7 @@ function Register() {
                                 id="email"
                                 required
                                 placeholder="Email"
-                                className="input-field email-input"
+                                className="input-fields email-input"
                             />
                             <img src={email} alt="Email Icon" className="input-icon1" />
                         </div>
@@ -124,7 +124,7 @@ function Register() {
                                 id="password"
                                 required
                                 placeholder="Password"
-                                className="input-field password-input"
+                                className="input-fields password-input"
                             />
                             <img
                                 src={showPassword ? eyeOffIcon : eyeIcon}
@@ -145,7 +145,7 @@ function Register() {
                                 id="confirm-password"
                                 required
                                 placeholder="Confirm Password"
-                                className="input-field confirm-password-input"
+                                className="input-fields confirm-password-input"
                             />
                             <img
                                 src={showConfirmPassword ? eyeOffIcon : eyeIcon}

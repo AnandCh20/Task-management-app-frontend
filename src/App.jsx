@@ -7,7 +7,7 @@ import { Dashboard } from './pages/Dashboard'
 import { AppProvider } from './contexts/AppContext'
 import {Analytics} from './pages/Analytics'
 import {Settings} from './pages/Settings'
-
+import {Board} from './pages/Board'
 function App() {
   return (
     <>
@@ -20,6 +20,7 @@ function App() {
           <Route path="/task" element={<Dashboard />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/board" element={<Board />} />
 
           {/* <Route path='/edit/:id' element={<Create />} /> */}
         </Routes>

@@ -16,6 +16,7 @@ import downArrow from '../assets/Down.png';
 import { AppContext } from '../contexts/AppContext.jsx';
 import { verifyToken } from '../utils/auth';
 import MyDeleteModal from '../component/DeleteModal.jsx';
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
     const { id } = useParams();
@@ -347,6 +348,26 @@ export const Dashboard = () => {
         }
     };
 
+    const navigate = useNavigate();
+    //sharing data for public view
+    const handleShare = async (taskId) => {
+        console.log("Sharing task with ID:", taskId);
+        try {
+            const response = await getTasks(taskId);
+            if (response.status === 200) {
+                const taskData = response.data;
+                setState({ sharedTask: taskData });
+                navigate("/board");
+                console.log("navigating to another board");
+            } else {
+                console.error("Error fetching task for sharing:", response.status);
+            }
+        } catch (error) {
+            console.error("Error while sharing:", error);
+        }
+    };
+
+
     return (
         <div className="dashboard">
             <Sidebar />
@@ -399,7 +420,7 @@ export const Dashboard = () => {
                                                             <button onClick={() => handleDelete(task._id)}>Delete</button>
                                                         )}
                                                         <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                        <button>Share</button>
+                                                        <button onClick={() => handleShare(task._id)}>Share</button>
                                                     </div>
                                                 )}
                                             </div>
@@ -517,7 +538,7 @@ export const Dashboard = () => {
                                                             <button onClick={() => handleDelete(task._id)}>Delete</button>
                                                         )}
                                                         <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                        <button>Share</button>
+                                                        <button onClick={() => handleShare(task._id)}>Share</button>
                                                     </div>
                                                 )}
                                             </div>
@@ -619,7 +640,7 @@ export const Dashboard = () => {
                                                             <button onClick={() => handleDelete(task._id)}>Delete</button>
                                                         )}
                                                         <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                        <button>Share</button>
+                                                        <button onClick={() => handleShare(task._id)}>Share</button>
                                                     </div>
                                                 )}
                                             </div>
@@ -722,7 +743,7 @@ export const Dashboard = () => {
                                                             <button onClick={() => handleDelete(task._id)}>Delete</button>
                                                         )}
                                                         <button onClick={() => handleEdit(task._id)}>Edit</button>
-                                                        <button>Share</button>
+                                                        <button onClick={() => handleShare(task._id)}>Share</button>
                                                     </div>
                                                 )}
                                             </div>
